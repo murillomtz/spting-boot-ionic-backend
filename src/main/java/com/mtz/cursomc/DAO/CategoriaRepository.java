@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mtz.cursomc.domain.Categoria;
 
-@Repository  //Extenção inplementa os comando como SALVAR LOCALIZAR, FINDBYID
+@Repository  //Extenção inplementa os comando como
 public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
 
 }
