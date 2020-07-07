@@ -30,15 +30,17 @@ public class Cliente implements Serializable {
 	private String cpfOuCnpj;
 	private Integer tipo;
 
-	@JsonManagedReference //Permite o Objeto CLiente referenciar o endereço
+	@JsonManagedReference // Permite o Objeto CLiente referenciar o endereço
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> endereco = new ArrayList<>();
-	
-	
+
 	// Set é um conjunto que nao aceita repetição
 	@ElementCollection // Mapear pelo JPA como uma entidade fraca
-	@CollectionTable(name = "TELEFONE") //CRIA UMA TABELA COM O ID E TELEFONE
+	@CollectionTable(name = "TELEFONE") // CRIA UMA TABELA COM O ID E TELEFONE
 	private Set<String> telefones = new HashSet<>();
+
+	@OneToMany(mappedBy = "cliente")
+	private List<Pedido> pedidos = new ArrayList<Pedido>();
 
 	public Cliente() {
 		super();
@@ -107,6 +109,14 @@ public class Cliente implements Serializable {
 
 	public void setTelefones(Set<String> telefones) {
 		this.telefones = telefones;
+	}
+
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 
 	@Override
