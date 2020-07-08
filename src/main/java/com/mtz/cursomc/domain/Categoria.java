@@ -10,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 //POis é uma entidade para o banco
 @Entity
 public class Categoria implements Serializable {
@@ -22,8 +20,9 @@ public class Categoria implements Serializable {
 	private Integer id;
 	private String nome;
 
-	@JsonManagedReference // Afirmao ao compilador q essa classe pode referenciar, paraevitar comflito
-							// Usado na classe principal
+	// Apagado @JsonManagedReference // Afirmao ao compilador q essa classe pode
+	// referenciar, paraevitar comflito
+	// Usado na classe principal
 	@ManyToMany(mappedBy = "categorias")
 	private List<Produto> produtos = new ArrayList<>();
 
