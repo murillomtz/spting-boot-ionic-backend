@@ -24,7 +24,7 @@ public class ClienteResource {
 	// metodo, como se fosse um "this."
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 
-		Optional<Cliente> obj = service.buscar(id);
+		Optional<Cliente> obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 

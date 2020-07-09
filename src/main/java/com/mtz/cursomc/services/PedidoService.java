@@ -16,7 +16,7 @@ public class PedidoService {
 	@Autowired // Automaticamente Instaciada pleo Spring
 	private PedidoRepository repo;
 
-	public Optional<Pedido> buscar(Integer id) {
+	public Optional<Pedido> find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
 		return Optional.ofNullable(obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName())));
