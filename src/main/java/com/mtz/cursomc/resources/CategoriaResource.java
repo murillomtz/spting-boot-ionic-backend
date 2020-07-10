@@ -1,7 +1,9 @@
 package com.mtz.cursomc.resources;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.mtz.cursomc.domain.Categoria;
+import com.mtz.cursomc.dto.CategoriaDTO;
 import com.mtz.cursomc.services.CategoriaService;
 
 @RestController
@@ -54,6 +57,17 @@ public class CategoriaResource {
 		service.delete(id);
 
 		return ResponseEntity.noContent().build();
+	}
+
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+
+		List<Categoria> list = service.findAll();
+
+		// Percorre a list<categoria> fazendo um map e atribuindo o obj na
+		// list<categoriaDTO> usando o collectos para transformar novamente em uma lista
+		List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
 	}
 	/**/
 
