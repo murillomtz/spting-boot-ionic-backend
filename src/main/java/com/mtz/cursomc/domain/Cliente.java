@@ -30,7 +30,7 @@ public class Cliente implements Serializable {
 	private String cpfOuCnpj;
 	private Integer tipo;
 
-	//@JsonManagedReference // Permite o Objeto CLiente referenciar o endereço
+	// @JsonManagedReference // Permite o Objeto CLiente referenciar o endereço
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> endereco = new ArrayList<>();
 
@@ -39,7 +39,7 @@ public class Cliente implements Serializable {
 	@CollectionTable(name = "TELEFONE") // CRIA UMA TABELA COM O ID E TELEFONE
 	private Set<String> telefones = new HashSet<>();
 
-	//@JsonBackReference // Nao permite que cliente serem serializados os pedidos
+	// @JsonBackReference // Nao permite que cliente serem serializados os pedidos
 	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<Pedido>();
@@ -54,7 +54,7 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
-		this.tipo = tipo.getCod();
+		this.tipo = (tipo == null) ? null : tipo.getCod();
 	}
 
 	public Integer getId() {
