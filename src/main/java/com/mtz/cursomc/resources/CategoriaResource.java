@@ -2,7 +2,6 @@ package com.mtz.cursomc.resources;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -33,9 +32,9 @@ public class CategoriaResource {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	// @PathVariable significa q o id passado pelo requeste mappin vai ser u sado no
 	// metodo, como se fosse um "this."
-	public ResponseEntity<Optional<Categoria>> find(@PathVariable Integer id) {
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 
-		Optional<Categoria> obj = service.find(id);
+		Categoria obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
@@ -43,13 +42,13 @@ public class CategoriaResource {
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto) {
 
- 		Categoria obj = service.fromDTO(objDto);
+		Categoria obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 
 	}
-    
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id) {
 		Categoria obj = service.fromDTO(objDto);

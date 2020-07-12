@@ -1,7 +1,6 @@
 package com.mtz.cursomc.resources;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -32,7 +31,7 @@ public class ClienteResource {
 	// metodo, como se fosse um "this."
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 
-		Optional<Cliente> obj = service.find(id);
+		Cliente obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 

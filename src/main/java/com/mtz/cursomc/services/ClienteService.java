@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.mtz.cursomc.DAO.ClienteRepository;
 import com.mtz.cursomc.domain.Cliente;
@@ -22,14 +24,15 @@ public class ClienteService {
 	@Autowired // Automaticamente Instaciada pleo Spring
 	private ClienteRepository repo;
 
-	public Optional<Cliente> find(Integer id) {
+	public Cliente find(Integer id) {
 		Optional<Cliente> obj = repo.findById(id);
-		return Optional.ofNullable(obj.orElseThrow(() -> new ObjectNotFoundException(
-				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName())));
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
 
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public Cliente update(Cliente obj) {
-		Optional<Cliente> newObj = find(obj.getId());
+		Cliente newObj = find(obj.getId());
 		updateData(newObj, obj);
 		return repo.save(newObj);
 	}
@@ -60,7 +63,7 @@ public class ClienteService {
 		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null);
 	}
 
-	private void updateData(Optional<Cliente> newObj, Cliente obj) {
+	private void updateData(Cliente newObj, Cliente obj) {
 
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());

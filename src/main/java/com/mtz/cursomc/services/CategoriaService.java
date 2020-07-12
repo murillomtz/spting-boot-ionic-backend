@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.mtz.cursomc.DAO.CategoriaRepository;
 import com.mtz.cursomc.domain.Categoria;
-import com.mtz.cursomc.domain.Cliente;
 import com.mtz.cursomc.dto.CategoriaDTO;
 import com.mtz.cursomc.services.exceptions.DataIntegrityException;
 import com.mtz.cursomc.services.exceptions.ObjectNotFoundException;
@@ -23,10 +22,10 @@ public class CategoriaService {
 	@Autowired // Automaticamente Instaciada pleo Spring
 	private CategoriaRepository repo;
 
-	public Optional<Categoria> find(Integer id) {
+	public Categoria find(Integer id) {
 		Optional<Categoria> obj = repo.findById(id);
-		return Optional.ofNullable(obj.orElseThrow(() -> new ObjectNotFoundException(
-				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName())));
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 	}
 
 	public Categoria insert(Categoria obj) {
@@ -34,8 +33,8 @@ public class CategoriaService {
 		return repo.save(obj);
 	}
 
-	public Categoria update(Cliente obj) {
-		Optional<Categoria> newObj = find(obj.getId());
+	public Categoria update(Categoria obj) {
+		Categoria newObj = find(obj.getId());
 		updateData(newObj, obj);
 		return repo.save(newObj);
 	}
