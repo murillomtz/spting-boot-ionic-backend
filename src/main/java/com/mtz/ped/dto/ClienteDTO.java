@@ -8,7 +8,9 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.mtz.ped.domain.Cliente;
+import com.mtz.ped.services.validation.ClienteUpdate;
 
+@ClienteUpdate
 public class ClienteDTO implements Serializable {
 
 	/**
@@ -20,7 +22,7 @@ public class ClienteDTO implements Serializable {
 	@NotEmpty(message = "Preechimento obrigatorio")
 	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
 	private String nome;
-	
+
 	@NotEmpty(message = "Preechimento obrigatorio")
 	@Email(message = "Email ivnvalido")
 	private String email;
