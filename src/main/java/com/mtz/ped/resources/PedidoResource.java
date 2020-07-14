@@ -1,7 +1,5 @@
 package com.mtz.ped.resources;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +22,7 @@ public class PedidoResource {
 	// metodo, como se fosse um "this."
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 
-		Optional<Pedido> obj = service.find(id);
+		Pedido obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
