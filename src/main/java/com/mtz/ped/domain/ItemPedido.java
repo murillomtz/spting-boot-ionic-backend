@@ -17,6 +17,7 @@ public class ItemPedido implements Serializable {
 
 	@JsonIgnore // Nao será serializado
 	@EmbeddedId // ID imbutido em um tipo auxiliar
+
 	private ItemPedidoPK id = new ItemPedidoPK();
 
 	private Double desconto;
@@ -45,8 +46,16 @@ public class ItemPedido implements Serializable {
 		return id.getPedido();
 	}
 
+	public void setPedido(Pedido pedido) {
+		id.setPedido(pedido);
+	}
+
 	public Produto getProduto() {
 		return id.getProduto();
+	}
+
+	public void setProduto(Produto produto) {
+		id.setProduto(produto);
 	}
 
 	@Override

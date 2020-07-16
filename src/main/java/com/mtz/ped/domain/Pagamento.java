@@ -11,10 +11,13 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.mtz.ped.domain.enums.EstadoPagamento;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) // Mapear uma herança, JOINED cria uma tabela para cada
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type") // Por ser um clase
+																									// abistrata
 public abstract class Pagamento implements Serializable {
 
 	/**
