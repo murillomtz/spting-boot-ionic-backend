@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.mtz.ped.DAO.ItemPedidoRepository;
 import com.mtz.ped.DAO.PagamentoRepository;
 import com.mtz.ped.DAO.PedidoRepository;
-import com.mtz.ped.domain.Cliente;
 import com.mtz.ped.domain.ItemPedido;
 import com.mtz.ped.domain.PagamentoComBoleto;
 import com.mtz.ped.domain.Pedido;
@@ -31,21 +30,21 @@ public class PedidoService {
 	private PagamentoRepository pagamentoRepository;
 
 	@Autowired
-	private ProdutoService produtoService;
-
-	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
 
 	@Autowired
+	private ProdutoService produtoService;
+
+	@Autowired
 	private ClienteService clienteService;
-	
+
 	@Autowired
 	private EmailService emailService;
 
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
-				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName()));
 	}
 
 	@Transactional
@@ -68,7 +67,7 @@ public class PedidoService {
 			ip.setPedido(obj);
 		}
 		itemPedidoRepository.saveAll(obj.getItens());
-		emailService.sendOrderConfirmationEmail(obj);
+		emailService.sendOrderConfirmationHtmlEmail(obj);
 		return obj;
 	}
 
