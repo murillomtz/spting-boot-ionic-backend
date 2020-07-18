@@ -12,6 +12,7 @@ public abstract class AbstractEmailService implements EmailService {
 	@Value("${default.sender}")
 	private String sender;
 
+	@Override
 	public void sendOrderConfirmationEmail(Pedido obj) {
 		SimpleMailMessage sm = prepareSimpleMailMessageFromPedido(obj);
 
@@ -23,7 +24,7 @@ public abstract class AbstractEmailService implements EmailService {
 		SimpleMailMessage sm = new SimpleMailMessage();
 		sm.setTo(obj.getCliente().getEmail());
 		sm.setFrom(sender);
-		sm.setSubject("Pedido Confirmardo!: " + obj.getId());
+		sm.setSubject("Pedido Confirmardo!: Codigo" + obj.getId());
 		sm.setSentDate(new Date(System.currentTimeMillis())); // Seta a data atual do servidor
 		sm.setText(obj.toString());
 		return sm;
