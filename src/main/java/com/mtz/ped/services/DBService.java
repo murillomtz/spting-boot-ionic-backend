@@ -29,6 +29,7 @@ import com.mtz.ped.domain.PagamentoComCartao;
 import com.mtz.ped.domain.Pedido;
 import com.mtz.ped.domain.Produto;
 import com.mtz.ped.domain.enums.EstadoPagamento;
+import com.mtz.ped.domain.enums.Perfil;
 import com.mtz.ped.domain.enums.TipoCliente;
 
 @Service
@@ -125,16 +126,26 @@ public class DBService {
 
 		Cliente cli1 = new Cliente(null, "Maria Silva", "murillo.santos@ucsal.edu.br", "36378912377",
 				TipoCliente.PESSOAFISICA, bCryptPasswordEncoder.encode("123"));
+
 		cli1.getTelefones().addAll(Arrays.asList("27363323", "93898993"));
+
+		Cliente cli2 = new Cliente(null, "Ana Costas", "mucalis@gmail.com", "30356291537", TipoCliente.PESSOAFISICA,
+				bCryptPasswordEncoder.encode("123"));
+
+		cli2.addPerfis(Perfil.ADMIN);
+		cli2.getTelefones().addAll(Arrays.asList("898465468", "326654146"));
 
 		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apt 303", "Jardim", "38220834", cli1, c1);
 
 		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
 
-		cli1.getEndereco().addAll(Arrays.asList(e1, e2));
+		Endereco e3 = new Endereco(null, "Avenida Floriano", "102", null, "Centro", "9998812", cli2, c2);
 
-		clienteRepository.saveAll(Arrays.asList(cli1));
-		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		cli1.getEndereco().addAll(Arrays.asList(e1, e2));
+		cli1.getEndereco().addAll(Arrays.asList(e3));
+
+		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2, e3));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Pedido ped1 = new Pedido(null, sdf.parse("30/03/2017 10:32"), cli1, e1);
