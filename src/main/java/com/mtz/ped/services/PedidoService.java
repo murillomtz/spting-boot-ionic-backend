@@ -1,26 +1,30 @@
-package com.mtz.ped.services;
+package com.mtz.ped.services; 
 
 import java.util.Date;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.mtz.ped.DAO.ItemPedidoRepository;
 import com.mtz.ped.DAO.PagamentoRepository;
 import com.mtz.ped.DAO.PedidoRepository;
+import com.mtz.ped.domain.Cliente;
 import com.mtz.ped.domain.ItemPedido;
 import com.mtz.ped.domain.PagamentoComBoleto;
 import com.mtz.ped.domain.Pedido;
 import com.mtz.ped.domain.enums.EstadoPagamento;
+import com.mtz.ped.security.UserSS;
+import com.mtz.ped.services.exceptions.AuthorizationException;
 import com.mtz.ped.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class PedidoService {
 
-	@Autowired // Automaticamente Instaciada pleo Spring
+	@Autowired
 	private PedidoRepository repo;
 
 	@Autowired
@@ -47,7 +51,6 @@ public class PedidoService {
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName()));
 	}
 
-	@Transactional
 	public Pedido insert(Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
@@ -67,8 +70,17 @@ public class PedidoService {
 			ip.setPedido(obj);
 		}
 		itemPedidoRepository.saveAll(obj.getItens());
-		emailService.sendOrderConfirmationHtmlEmail(obj);
+		emailService.sendOrderConfirmationEmail(obj);
 		return obj;
 	}
 
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Cliente cliente = clienteService.find(user.getId());
+		return repo.findByCliente(cliente, pageRequest);
+	}
 }
