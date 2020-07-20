@@ -20,9 +20,12 @@ import com.mtz.ped.DAO.EnderecoRepository;
 import com.mtz.ped.domain.Cidade;
 import com.mtz.ped.domain.Cliente;
 import com.mtz.ped.domain.Endereco;
+import com.mtz.ped.domain.enums.Perfil;
 import com.mtz.ped.domain.enums.TipoCliente;
 import com.mtz.ped.dto.ClienteDTO;
 import com.mtz.ped.dto.ClienteNewDTO;
+import com.mtz.ped.security.UserSS;
+import com.mtz.ped.services.exceptions.AuthorizationException;
 import com.mtz.ped.services.exceptions.DataIntegrityException;
 import com.mtz.ped.services.exceptions.ObjectNotFoundException;
 
@@ -39,8 +42,15 @@ public class ClienteService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public Cliente find(Integer id) {
+
+		UserSS user = UserService.authenticated();
+
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
 		Optional<Cliente> obj = repo.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException(
+		return obj
+				.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
 
