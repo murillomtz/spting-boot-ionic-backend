@@ -117,7 +117,7 @@ public class Cliente implements Serializable {
 	}
 
 	public void setSenha(String senha) {
-		senha = senha;
+		this.senha = senha;
 	}
 
 	public Set<Perfil> getPerfis() {
