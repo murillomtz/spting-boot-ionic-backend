@@ -1,5 +1,6 @@
 package com.mtz.ped.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mtz.ped.DAO.ClienteRepository;
 import com.mtz.ped.DAO.EnderecoRepository;
@@ -41,6 +43,9 @@ public class ClienteService {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	@Autowired
+	private S3Service s3Service;
+
 	public Cliente find(Integer id) {
 
 		UserSS user = UserService.authenticated();
@@ -49,8 +54,7 @@ public class ClienteService {
 			throw new AuthorizationException("Acesso negado");
 		}
 		Optional<Cliente> obj = repo.findById(id);
-		return obj
-				.orElseThrow(() -> new ObjectNotFoundException(
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
 
@@ -117,5 +121,9 @@ public class ClienteService {
 
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
+	}
+
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 	}
 }
