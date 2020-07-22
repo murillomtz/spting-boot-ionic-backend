@@ -3,7 +3,7 @@ package com.mtz.ped.resources.exception;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ValidarionError extends StandardError {
+public class ValidationError extends StandardError {
 
 	/**
 	 * 
@@ -12,14 +12,9 @@ public class ValidarionError extends StandardError {
 
 	private List<FieldMessage> errors = new ArrayList<>();
 
-	public ValidarionError() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	public ValidationError(Long timestamp, Integer status, String error, String message, String path) {
+		super(timestamp, status, error, message, path);
 
-	public ValidarionError(Integer status, String msg, Long timeStamp) {
-		super(status, msg, timeStamp);
-		// TODO Auto-generated constructor stub
 	}
 
 	public List<FieldMessage> getErrors() {
