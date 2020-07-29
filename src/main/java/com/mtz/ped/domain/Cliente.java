@@ -41,7 +41,7 @@ public class Cliente implements Serializable {
 	// @JsonManagedReference // Permite o Objeto CLiente referenciar o endereço
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL) // Cascade apra apagar os enderecos do DB quando excluir
 																// o cliente
-	private List<Endereco> endereco = new ArrayList<>();
+	private List<Endereco> enderecos = new ArrayList<>();
 
 	// Set é um conjunto que nao aceita repetição
 	@ElementCollection // Mapear pelo JPA como uma entidade fraca
@@ -129,12 +129,12 @@ public class Cliente implements Serializable {
 		perfis.add(perfil.getCod());
 	}
 
-	public List<Endereco> getEndereco() {
-		return endereco;
+	public List<Endereco> getEnderecos() {
+		return enderecos;
 	}
 
-	public void setEndereco(List<Endereco> endereco) {
-		this.endereco = endereco;
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
 	}
 
 	public Set<String> getTelefones() {
@@ -181,7 +181,7 @@ public class Cliente implements Serializable {
 	@Override
 	public String toString() {
 		return "Cliente [id=" + id + ", nome=" + nome + ", email=" + email + ", cpfOuCnpj=" + cpfOuCnpj + ", tipo="
-				+ tipo + ", senha=" + senha + ", endereco=" + endereco.toString() + ", telefones=" + telefones + ", perfis="
+				+ tipo + ", senha=" + senha + ", endereco=" + enderecos.toString() + ", telefones=" + telefones + ", perfis="
 				+ perfis + ", pedidos=" + pedidos + "]";
 	}
 	

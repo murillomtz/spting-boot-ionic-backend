@@ -226,8 +226,8 @@ public class DBService {
 
 		Endereco e3 = new Endereco(null, "Avenida Floriano", "102", null, "Centro", "9998812", cli2, c2);
 
-		cli1.getEndereco().addAll(Arrays.asList(e1, e2));
-		cli1.getEndereco().addAll(Arrays.asList(e3));
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		cli1.getEnderecos().addAll(Arrays.asList(e3));
 
 		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2, e3));
